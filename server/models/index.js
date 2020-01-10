@@ -8,7 +8,7 @@ module.exports = {
     get: function (callback) {
       // fetch all messages
       // id, text, and username, roomname
-      var queryStr = 'SELECT messages.id, messages.text, messages.roomname from messages \
+      var queryStr = 'SELECT messages.id, messages.text, messages.roomname users.username from messages \
       left outer join user on (messages.user_id = users.id \
       ORDER BY messages.id DESC';
       dp.query(queryStr, (err, results) => {
@@ -17,7 +17,7 @@ module.exports = {
     },
     // a function which can be used to insert a message into the database (store)
     post: function (params, callback) {
-      // grabbing the user_id, we create a query inside the brackets to select the id
+      // grabbing the user_id, we create a ry inside the brackets to select the id
       var queryStr = 'INSERT INTO messages(text, user_id, roomname) VALUES(?, (SELECT id FROM users WHERE username = ? limit 1), ?)';
       db.query(queryStr, params, (err, results) => {
         callback(results);
